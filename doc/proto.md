@@ -7,8 +7,8 @@ standard REST api which defines the following endpoints:
 
 `/v1`
 
-Code: `200 OK`
-Content: <none>
+* Code: `200 OK`
+* Content: <none>
 
 For discovery of the supported versions of the NMC-REST protocol. Currently
 there is only one version.
@@ -17,9 +17,9 @@ there is only one version.
 
 `/v1/n/<name>`
 
-Code: `200 OK`
-Content-Type: `application/json`
-Content: The return of `namecoind name_show <name>`, json encoded with no
+* Code: `200 OK`
+* Content-Type: `application/json`
+* Content: The return of `namecoind name_show <name>`, json encoded with no
 newlines.
 
 `<name>` is the url-encoded name of whatever value on the namecoind chain you
@@ -36,9 +36,9 @@ want to check the value of. For instance, here's the request/response for
 
 `/v1/n/<name>/<field>`
 
-Code: `200 OK`
-Content-Type: `text/plain`
-Content: The value at the given field on the given name on the namecoin
+* Code: `200 OK`
+* Content-Type: `text/plain`
+* Content: The value at the given field on the given name on the namecoin
 blockchain.
 
 Both `<name>` and `<field>` are url-encoded. You can see the available
