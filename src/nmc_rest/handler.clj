@@ -24,4 +24,3 @@
 
 (def app
   (compojure.handler/api app-routes))
-
