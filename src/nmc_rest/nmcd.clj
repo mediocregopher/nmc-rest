@@ -8,8 +8,7 @@
   [& args]
   (parse-string
     (with-programs [namecoind]
-      (apply namecoind (map name args)))
-    true))
+      (apply namecoind (map name args)))))
 
 (defn name-show
   "Calls 'namecoind name_show <n>'"
