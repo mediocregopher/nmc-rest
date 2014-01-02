@@ -1,35 +1,27 @@
 (ns nmc-rest.core
   (:gen-class)
-  (:require [ring.adapter.jetty :refer [run-jetty]]
-            [clojure.tools.cli :refer [cli]]
-            [nmc-rest.config :as config]
+  (:require [my-compojure.core :refer [conf-load-cli conf-get run]]
             [nmc-rest.handler :as handler]))
 
 (def description
   "A rest api around the namecoin blockchain")
 
-(def default-config-msg
-  "Using the default configuration. You can generate this config using the -d
-  flag. You can change the configuration by piping the default one to a file,
-  editing, and passing that file in using the -c flag")
+(def default-config-str "
+;; This is an example configuration for nmc-rest. It contains all the default
+;; values for the various options, change them as needed.
+{
+
+    ;; Options for the HTTP REST API (OMG CAPS). These are the most common ones
+    ;; that'll be used, you can find a full list of available options at:
+    ;; http://mmcgrana.github.io/ring/ring.adapter.jetty.html
+    :rest {
+            :host \"0.0.0.0\"
+            :port 3000
+          }
+
+}
+")
 
 (defn -main [& args]
-  (let [[opts _ halp]
-          (cli args ["-c" "--config" "Configuration file"]
-                    ["-d" "--dump" "Dump default configuration to stdout"
-                      :flag true]
-                    ["-h" "--help" "Print help" :default false])]
-
-    (cond
-      (not (false? (opts :help))) (do (print description "\n\n" halp "\n")
-                                      (flush)
-                                      (System/exit 0))
-
-      (opts :dump) (do (print config/default-config-str)
-                       (flush)
-                       (System/exit 0))
-
-      (get opts :config false) (config/load-config (opts :config))
-      :else (println default-config-msg))
-
-    (run-jetty handler/app (config/cget :rest))))
+  (conf-load-cli description default-config-str args)
+  (run handler/app (conf-get :rest)))
